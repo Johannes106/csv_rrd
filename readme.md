@@ -19,8 +19,6 @@ output as rrd-file and png-image and log-file: csv2rrd will process the given in
 ***csv_read.py***: it is responsible for the csv. Here the csv is processed: **Actions**: read the csv, return the csv to the rrdtool
 ***logger.py***: it is responsible for the logfile of the csv2rrd. **Actions**: print the messages of error or success to the *rrd2csv.log*
 ***rrdtool_wrapper.py***: it is responsible for the actions of the rrdtool. **Actions**: create or update a rrd, generate a graph of a rrd
-### files
-### structure
 
 ## howto
 `How to call csv2rrd?`
