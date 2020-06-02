@@ -5,3 +5,4 @@ to_do.txt
 rrd/*
 csv2rrd.log
 *.csv
+csv/sma.csv
