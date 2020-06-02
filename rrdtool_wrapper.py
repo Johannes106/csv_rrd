@@ -17,12 +17,29 @@ def creator_rrd(rrdfile_name, starttime, step):
             rrdfile_name,
             "--start", starttime,
             "--step", step,
+            # "DS:etoday:GAUGE:600:0:50000",
+            # "RRA:AVERAGE:0.5:1:200",
+            # "RRA:AVERAGE:0.5:200:7",
+            # "RRA:AVERAGE:0.5:1400:4",
+            # "RRA:AVERAGE:0.5:5200:12",
+            # "RRA:AVERAGE:0.5:62400:10")
             "DS:etoday:GAUGE:600:0:50000",
-            "RRA:AVERAGE:0.5:1:200",
-            "RRA:AVERAGE:0.5:200:7",
-            "RRA:AVERAGE:0.5:1400:4",
-            "RRA:AVERAGE:0.5:5200:12",
-            "RRA:AVERAGE:0.5:62400:10")
+            "RRA:AVERAGE:0.5:1:600",
+            "RRA:AVERAGE:0.5:6:700",
+            "RRA:AVERAGE:0.5:24:775",
+            "RRA:AVERAGE:0.5:288:797",
+            "RRA:MIN:0.5:1:600",
+            "RRA:MIN:0.5:6:700",
+            "RRA:MIN:0.5:24:775",
+            "RRA:MIN:0.5:288:797",
+            "RRA:MAX:0.5:1:600",
+            "RRA:MAX:0.5:6:700",
+            "RRA:MAX:0.5:24:775",
+            "RRA:MAX:0.5:288:797",
+            "RRA:LAST:0.5:1:600",
+            "RRA:LAST:0.5:6:700",
+            "RRA:LAST:0.5:24:775",
+            "RRA:LAST:0.5:288:797")
         create_status_msg = f"{rrdfile_name} was created successfully"
     except:
         create_status_msg = f"rrd creation error: {sys.exc_info()[1]}"
@@ -50,6 +67,17 @@ def updater_rrd(rrdfile_name, value):
             update_status_msg = f"error: rrd update error: {sys.exc_info()[1]}"
     return update_status_msg
 
+def rrd_info(rrdfile_name):
+    info_status_msg = ""
+    #is the given file a rrd
+    try:
+        db_info = rrdtool.info(rrdfile_name)
+        print(db_info)
+        info_status_msg = f"success: {rrdfile_name}: was read successfully"
+    except:
+        info_status_msg = f"error: rrd update error: {sys.exc_info()[1]}"
+    return info_status_msg
+
 
 def grapher_rrd(rrd_filename, devicename, image_name, image_typ, starttime, endtime, last_time, last_update):
     graph_status_msg = ""
@@ -67,7 +95,8 @@ def grapher_rrd(rrd_filename, devicename, image_name, image_typ, starttime, endt
                       '--vertical-label', "kwh",
                       '--right-axis-label', f"last update time: {last_time.split(' ')[1]}",
                       f"{rrd_def}",
-                      "LINE2:kwh_etoday#FF0000")
+                      "LINE2:kwh_etoday#FF0000",
+                      'COMMENT:"From 2020/05/25 20\:17\:07 To 2020/05/26 20\:12\:07\c"')
         graph_status_msg = f"success: {image_name} was successfully generated"
     except:
         graph_status_msg = f"error: rrd graph error: {sys.exc_info()[1]}"

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # read data of a csv-file and print specific keys with related values of the csv to the console within a loop
 import re
 import sys

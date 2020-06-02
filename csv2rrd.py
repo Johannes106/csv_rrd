@@ -116,7 +116,7 @@ def main():
     else:
         job_status = f"There are no given args on the commandline so use {csv_filename} (by default)"
         l.i(job_status)
-        csv = read_csv(csv_filename)
+        csv_file_entity = read_csv(csv_filename)
         ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity)
 
 main()

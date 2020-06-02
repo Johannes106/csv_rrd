@@ -1,0 +1,48 @@
+26.05.2020 06:14:24 PM ---------CSV2RRD---------
+26.05.2020 06:14:24 PM Read CSV: ['./csv/sma1.csv']
+26.05.2020 06:14:24 PM process 1 csvfiles
+26.05.2020 06:14:24 PM ./rrd/sma_garage.rrd was created successfully
+26.05.2020 06:14:24 PM success: ./rrd/sma_garage.rrd was updated successfully
+26.05.2020 06:14:24 PM success: ./rrd/graph/sma_garage_1589947212.png was successfully generated
+26.05.2020 06:15:40 PM ---------CSV2RRD---------
+26.05.2020 06:15:40 PM Read CSV: ['./csv/sma1.csv']
+26.05.2020 06:15:40 PM process 1 csvfiles
+26.05.2020 06:15:40 PM ./rrd/sma_garage.rrd was created successfully
+26.05.2020 06:15:40 PM success: ./rrd/sma_garage.rrd was updated successfully
+26.05.2020 06:15:40 PM success: ./rrd/graph/sma_garage_1589947212.png was successfully generated
+26.05.2020 08:14:32 PM ---------CSV2RRD---------
+26.05.2020 08:14:32 PM Read CSV: ['./csv/sma1.csv']
+26.05.2020 08:14:32 PM process 1 csvfiles
+26.05.2020 08:14:32 PM ./rrd/sma_garage.rrd was created successfully
+26.05.2020 08:14:32 PM success: ./rrd/sma_garage.rrd was updated successfully
+26.05.2020 08:14:32 PM success: ./rrd/graph/sma_garage_1589947212.png was successfully generated
+26.05.2020 08:19:48 PM ---------CSV2RRD---------
+26.05.2020 08:19:48 PM Read CSV: ['./csv/sma1.csv']
+26.05.2020 08:19:48 PM process 1 csvfiles
+26.05.2020 08:19:48 PM ./rrd/sma_garage.rrd was created successfully
+26.05.2020 08:19:48 PM success: ./rrd/sma_garage.rrd was updated successfully
+26.05.2020 08:19:48 PM success: ./rrd/graph/sma_garage_1589947212.png was successfully generated
+02.06.2020 12:45:49 PM ---------CSV2RRD---------
+02.06.2020 12:45:49 PM Read CSV: ./csv/sma.csv
+02.06.2020 12:45:49 PM There are no given args on the commandline so use ./csv/sma.csv (by default)
+02.06.2020 12:47:15 PM ---------CSV2RRD---------
+02.06.2020 12:47:15 PM Read CSV: ./csv/sma.csv
+02.06.2020 12:47:15 PM There are no given args on the commandline so use ./csv/sma.csv (by default)
+02.06.2020 12:52:59 PM ---------CSV2RRD---------
+02.06.2020 12:52:59 PM Read CSV: ['/csv/sma.rrd']
+02.06.2020 12:52:59 PM process 0 csvfiles
+02.06.2020 12:53:14 PM ---------CSV2RRD---------
+02.06.2020 12:53:14 PM Read CSV: ['/csv/sma.csv']
+02.06.2020 12:53:14 PM process 0 csvfiles
+02.06.2020 12:53:25 PM ---------CSV2RRD---------
+02.06.2020 12:53:25 PM Read CSV: ['./csv/sma.csv']
+02.06.2020 12:53:25 PM process 1 csvfiles
+02.06.2020 12:53:25 PM ./rrd/sma_garage.rrd was created successfully
+02.06.2020 12:53:25 PM success: ./rrd/sma_garage.rrd was updated successfully
+02.06.2020 12:53:25 PM success: ./rrd/graph/sma_garage_1589947212.png was successfully generated
+02.06.2020 12:59:07 PM ---------CSV2RRD---------
+02.06.2020 12:59:07 PM Read CSV: ./csv/sma.csv
+02.06.2020 12:59:07 PM There are no given args on the commandline so use ./csv/sma.csv (by default)
+02.06.2020 12:59:07 PM ./rrd/sma_garage.rrd was created successfully
+02.06.2020 12:59:07 PM success: ./rrd/sma_garage.rrd was updated successfully
+02.06.2020 12:59:07 PM success: ./rrd/graph/sma_garage_1589947212.png was successfully generated
