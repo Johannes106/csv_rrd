@@ -1,5 +1,5 @@
 sep=;
-Version CSV123|Tool SBFspot3.5.2 (Linux)|Linebreaks LF|Delimiter semicolon|Decimalpoint dot|Precision 3
+Version CSV1234|Tool SBFspot3.5.2 (Linux)|Linebreaks LF|Delimiter semicolon|Decimalpoint dot|Precision 3
 
 ;;;;Watt;Watt;Amp;Amp;Volt;Volt;Watt;Watt;Watt;Amp;Amp;Amp;Volt;Volt;Volt;Watt;Watt;%;kWh;kWh;Hz;Hours;Hours;%;Status;Status;degC
 dd/MM/yyyy HH:mm:ss;DeviceName;DeviceType;Serial;Pdc1;Pdc2;Idc1;Idc2;Udc1;Udc2;Pac1;Pac2;Pac3;Iac1;Iac2;Iac3;Uac1;Uac2;Uac3;PdcTot;PacTot;Efficiency;EToday;ETotal;Frequency;OperatingTime;FeedInTime;BT_Signal;Condition;GridRelay;Temperature

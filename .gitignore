@@ -4,3 +4,4 @@ to_do.txt
 ./csv/*
 rrd/*
 csv2rrd.log
+*.csv
