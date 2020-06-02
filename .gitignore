@@ -1,8 +1,6 @@
 __pycache__
 to_do.txt
 .git
-./csv/*
+csv/*
 rrd/*
 csv2rrd.log
-*.csv
-csv/sma.csv
