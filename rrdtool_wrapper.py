@@ -67,16 +67,40 @@ def updater_rrd(rrdfile_name, value):
             update_status_msg = f"error: rrd update error: {sys.exc_info()[1]}"
     return update_status_msg
 
-def rrd_info(rrdfile_name):
+def info_rrd(rrdfile_name):
+    info_content = []
     info_status_msg = ""
     #is the given file a rrd
     try:
         db_info = rrdtool.info(rrdfile_name)
-        print(db_info)
+        info_content = db_info
+        # print(db_info)
         info_status_msg = f"success: {rrdfile_name}: was read successfully"
     except:
         info_status_msg = f"error: rrd update error: {sys.exc_info()[1]}"
-    return info_status_msg
+    info_msg = dict()
+    info_msg['data'] = info_content
+    info_msg['status'] = info_status_msg
+    return info_msg
+
+def fetch_rrd(rrdfile_name):
+    fetch_content = []
+    fetch_status_msg = ""
+    #is the given file a rrd
+    try:
+        db_values = rrdtool.fetch(rrdfile_name, "AVERAGE")
+        # start, end, step = result[0]
+        # ds = result[1]
+        # rows = result[2]
+        fetch_times = db_values[0]
+        fetch_status_msg = f"success: {rrdfile_name}: was fetched successfully"
+    except:
+        fetch_status_msg = f"error: rrd fetch error: {sys.exc_info()[1]}"
+        print("fetch error")
+    fetch_msg = dict()
+    fetch_msg['times'] = fetch_times
+    fetch_msg['status'] = fetch_status_msg
+    return fetch_msg
 
 
 def grapher_rrd(rrd_filename, devicename, image_name, image_typ, starttime, endtime, last_time, last_update):
