@@ -70,8 +70,8 @@ def main():
     rrd_filename = f"./rrd/{rrdtool_filename}.rrd"
     rrd_heartbeat = "300"
 
-    #method to create rrd and update rrd and generate graph
-    #method to update rrd and generate graph
+    #ug: update, graph -> method to update rrd and generate graph
+    #cug: create, update, graph -> method to create rrd and update rrd and generate graph
     def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity):
         # in this section all variables for the csv-file are set
         # differentiate if filename is one value or more then one
@@ -103,20 +103,46 @@ def main():
                 job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
                 l.i(job_status)
 
-    # if there are several csv-files found because there are several arguments by a wildcard (*) on the script-command by commandline
-    if(type(csv_filename) == list):
-        csv_file_list = iterate_over_csvs_and_store_it_to_list(csv_filename)
-        l.i(f"process {len(csv_file_list)} csvfiles")
-        counter = 0
-        #iterate over all found csv files
-        for csv_file_entity in csv_file_list:
-            counter += 1
+    def start_cug_dependent_of_csv(csv_filename):
+        # if there are several csv-files found because there are several arguments by a wildcard (*) on the script-command by commandline
+        if(type(csv_filename) == list):
+            csv_file_list = iterate_over_csvs_and_store_it_to_list(csv_filename)
+            l.i(f"process {len(csv_file_list)} csvfiles")
+            counter = 0
+            #iterate over all found csv files
+            for csv_file_entity in csv_file_list:
+                counter += 1
+                ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity)
+        # if only one csv is found because there is only one argument on the script-command by commandline
+        else:
+            job_status = f"There are no given args on the commandline so use {csv_filename} (by default)"
+            l.i(job_status)
+            csv_file_entity = read_csv(csv_filename)
             ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity)
-    # if only one csv is found because there is only one argument on the script-command by commandline
-    else:
-        job_status = f"There are no given args on the commandline so use {csv_filename} (by default)"
-        l.i(job_status)
-        csv_file_entity = read_csv(csv_filename)
-        ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity)
+
+    def inspect_rrd(rrd_filename):
+        #use functions of rrdtool_wrapper.py
+        rrd_info = info_rrd(rrd_filename)
+        job_status = rrd_info['status']
+        rrd_data = rrd_info['data']
+        print(rrd_data['filename'])
+
+    def get_data_rrd(rrd_filename):
+        #use functions of rrdtool_wrapper.py
+        rrd_fetch = fetch_rrd(rrd_filename)
+        job_status = rrd_fetch['status']
+        rrd_data = rrd_fetch['times']
+        rrd_data_firsttime = rrd_data[0]
+        rrd_data_lasttime = rrd_data[1]
+        rrd_data_step = rrd_data[2]
+        print(job_status)
+        print(rrd_data)
+        print(rrd_data_firsttime)
+
+    #this function is executed
+    # start_cug_dependent_of_csv(csv_filename)
+    # inspect_rrd(rrd_filename)
+    fetched_data = get_data_rrd(rrd_filename)
+
 
 main()
