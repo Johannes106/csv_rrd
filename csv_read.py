@@ -34,7 +34,7 @@ def read_csv(csv_filename):
                 csv_data_list_line_filtered = (f"{_convert_date_to_timestamp(csv_data_list_line['dd/MM/yyyy HH:mm:ss'])}:{csv_data_list_line['EToday']}")
                 # it is important if this file (csv_read.py) is used as a script for the use with cacti
                 # print(f"{csv_data_list_line['DeviceName']}")
-                print(csv_data_list_line_filtered)
+                # print(csv_data_list_line_filtered)
                 csv_data_array_list.append(csv_data_list_line)
                 csv_data_array_list_filtered.append(csv_data_list_line_filtered)
                 content_line += 1
@@ -56,7 +56,7 @@ def read_csv(csv_filename):
 
 # main(csvfile_name) is only executed if 'csv_read.py' is directly called
 def main(csvfile_name):
-    read_csv(csvfile_name)
+    print(read_csv(csvfile_name))
 
 # check if this file (csv_read.py) is directly called
 # first of all execution python looks for its own variables and if the var __name__ has the value of __main__ then it is a direct call
