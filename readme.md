@@ -6,19 +6,25 @@ For more information: (https://www.sma-america.com/) (https://github.com/SBFspot
 ### target
 csv2rrd is written to store the data of a sma-device (PV inverter) in a database. With code adaptions csv2rrd can be used with nearly every other csv-files.
 ### worklive folders
-./csv : In this relative path of the sourcefolder all csv-files (sma.csv) will be located.
-./rrd : In this relative path of the sourcefolder the rrd-file (sma.rrd) will be located.
-./rrd/graph : In this relative path of the sourcefolder the graph (sma.png) will be located.
+* **./csv** : In this relative path of the sourcefolder all csv-files (sma.csv) will be located.
+* **./rrd** : In this relative path of the sourcefolder the rrd-file (sma.rrd) will be located.
+* **./rrd/graph** : In this relative path of the sourcefolder the graph (sma.png) will be located.
+
+## requirements 
+rrdtool has to be installed. otherwise install it!: ```pip install rrdtool```
 ### input
-input as arguments: give one or several csv-filenames as arguments to the csv2rrd. if no argument will be provided rrd2csv use *./csv/sma.csv* by default.
+**input as arguments**: give __one__ or __several__ **csv-filenames** as arguments to the csv2rrd. if no argument will be provided rrd2csv use __./csv/sma.csv__ by default.
 ### output
-output as rrd-file and png-image and log-file: csv2rrd will process the given input (csv) and create a related rrd and a graph. For better usability a logfile (*csv2rrd.log*) is generated too.
+output as **rrd-file** and **png-image** and **log-file**: csv2rrd will process the given input (csv) and create a related rrd and a graph. For better usability a logfile (*csv2rrd.log*) is generated too.
 
 ## code
-***csv2rrd.py***: it is the main of the *app*. Here all scripts are bundled: csv_read.py, logger-py, rrdtool_wrapper.py
-***csv_read.py***: it is responsible for the csv. Here the csv is processed: **Actions**: read the csv, return the csv to the rrdtool
-***logger.py***: it is responsible for the logfile of the csv2rrd. **Actions**: print the messages of error or success to the *rrd2csv.log*
-***rrdtool_wrapper.py***: it is responsible for the actions of the rrdtool. **Actions**: create or update a rrd, generate a graph of a rrd
+* **csv2rrd.py**: it is the main of the *app*. Here all scripts are bundled: csv_read.py, logger-py, rrdtool_wrapper.py
+* **csv_read.py**: it is responsible for the csv. Here the csv is processed:
+  * **Actions**: read the csv, return the csv to the rrdtool
+* **logger.py**: it is responsible for the logfile of the csv2rrd.
+  * **Actions**: print the messages of error or success to the *rrd2csv.log*
+* **rrdtool_wrapper.py**: it is responsible for the actions of the rrdtool.
+  * **Actions**: create or update a rrd, generate a graph of a rrd
 
 ## howto
 `How to call csv2rrd?`
@@ -37,4 +43,4 @@ python3 csv2rrd.py sma1-Spot-20200521.csv
 python3 csv2rrd.py ./csv/sma*
 ```
 
-Important: Before calling csv2rrd delete all files in ./rrd and ./rrd/graph
+### Important: Before calling csv2rrd delete all files in ./rrd and ./rrd/graph
