@@ -143,7 +143,7 @@ def generate_graph_by_rrd(rrd_filename, devicename, image_filename, logger):
     print(job_status)
     logger.i(job_status)
 
-def main():
+def main_():
     # in this section all basic variables are set
     # set a var as a string for logging purpose
     # for logging purposes
@@ -163,7 +163,7 @@ def main():
     # set filename: differentiate between 0 args or 1 arg or 1 arg with regex
     # if the path of csv_file exist set this path as default otherwise do not use read_csv
     #if(file_exists(csv_file)!=None):
-    #start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, l)
-    generate_graph_by_rrd(rrd_filename, csv_devicename, image_filename, l)
+    start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, l)
+    #generate_graph_by_rrd(rrd_filename, csv_devicename, image_filename, l)
 
-main()
+main_()
