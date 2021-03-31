@@ -75,7 +75,7 @@ def updater_rrd(rrdfile_name, value):
                 # raise
     else:
         try:
-            rrdtool.update(rrdfile_name, values)
+            rrdtool.update(rrdfile_name, value)
             update_status_msg = f"success: {rrdfile_name}: was updated successfully"
         except:
             update_status_msg = f"error: rrd update error: {sys.exc_info()[1]}"
