@@ -77,17 +77,17 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l)
         if(file_exists(image_filename)):
             job_status = f"error: create graph: {image_filename} already exists so do not create it"
             l.i(job_status)
-        else:
-            job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
-            l.i(job_status)
+        # else:
+        #     job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
+        #     l.i(job_status)
     else:
             job_status = creator_rrd(rrd_filename, csv_first_timestamp, rrd_heartbeat)
             l.i(job_status)
             job_status = updater_rrd(rrd_filename, csv_data)
             l.i(job_status)
-            job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
-            l.i(job_status)
-#(csv_filename, rrd_filename, rrd_heartbeat, csv_devicename, image_filename, l)
+            # job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
+            # l.i(job_status)
+            
 def start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, l):
     csv_exists = True
     csv_file = "./csv/sma1.csv"
