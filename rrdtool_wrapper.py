@@ -2,7 +2,7 @@
 # wrapper for the actions of the rrdtool
 # - create a round-robin-database
 # - update the rrd:
-#   - with an single value
+#   - with a single value
 #   - with a list of values (in form of -> time:value)
 # - create a graph of rrd
 import sys
