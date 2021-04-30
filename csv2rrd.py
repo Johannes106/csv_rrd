@@ -77,9 +77,9 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l)
         if(file_exists(image_filename)):
             job_status = f"error: create graph: {image_filename} already exists so do not create it"
             l.i(job_status)
-        # else:
-        #     job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
-        #     l.i(job_status)
+        else:
+            job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
+            l.i(job_status)
     else:
             job_status = creator_rrd(rrd_filename, csv_first_timestamp, rrd_heartbeat)
             l.i(job_status)
@@ -155,10 +155,10 @@ def main_():
     # default path for csv is set
     rrdtool_filename = "sma_garage"
     # comented pathes are the default locations for pathes of cacti on ubuntu
-    rrd_filename = f"/opt/cacti/rra/{rrdtool_filename}.rrd"#f"./rrd/{rrdtool_filename}.rrd" #
+    rrd_filename = f"./rrd/{rrdtool_filename}.rrd" #f"/opt/cacti/rra/{rrdtool_filename}.rrd"#
     rrd_heartbeat = "300"
     csv_devicename = "rrd"
-    image_filename = f"/opt/cacti/graphes/{rrdtool_filename}"#f"./rrd/graph/{rrdtool_filename}"#
+    image_filename = f"./rrd/graph/{rrdtool_filename}"#f"/opt/cacti/graphes/{rrdtool_filename}"#
 
     # if there no args existing the function will return false: otherwise it will return a list of filenames
     # set filename: differentiate between 0 args or 1 arg or 1 arg with regex
