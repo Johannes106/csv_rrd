@@ -11,7 +11,10 @@ csv2rrd is written to store the data of a sma-device (PV inverter) in a database
 * **./rrd/graph** : In this relative path of the sourcefolder the graph (sma.png) will be located.
 
 ## requirements 
-rrdtool has to be installed. otherwise install it!: ```pip install rrdtool```
+rrdtool has to be installed. 
+* otherwise install it!: ```pip3 install rrdtool``` 
+* Maybe you also need some additional steps: ```sudo apt-get install rrdtool python-rrdtool librrd-dev```
+
 ### input
 **input as arguments**: give __one__ or __several__ **csv-filenames** as arguments to the csv2rrd. if no argument will be provided rrd2csv use __./csv/sma.csv__ by default.
 ### output
