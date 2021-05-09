@@ -30,20 +30,33 @@ output as **rrd-file** and **png-image** and **log-file**: csv2rrd will process 
   * **Actions**: create or update a rrd, generate a graph of a rrd
 
 ## howto
+pathes:\n
+- Default pathes for rrd: ./rrd/sma_garage.rrd
+- Default pathes for graphes: ./rrd/graph/sma_garage*.png
+
+
+
 `How to call csv2rrd?`
 >Call it with no paramter: *sma.csv* will be processed
 ```
 python3 csv2rrd.py
 ```
 
->Call it with one paramter: *sma1-Spot-20200521.csv* will be processed
+>Call it with one parameter: *sma1-Spot-20200521.csv* will be processed
 ```
 python3 csv2rrd.py sma1-Spot-20200521.csv
 ```
 
->Call it with an asterisk in the paramter: *sma**-Spot-20200521.csv* will be processed
+>Call it with an asterisk in the parameter: *sma**-Spot-20200521.csv* will be processed
 ```
 python3 csv2rrd.py ./csv/sma*
+```
+
+>Call it with args for rrd-location and graph-folder and csv-location
+>*Important:* args for rrd has to be a whole location and end with: .rrd
+>*Important:* args for graph has be only the relativ path and it will indicated by the word 'graph'
+```
+python3 csv2rrd.py ./csv/sma.csv ./rrd/test.rrd ./graph
 ```
 
 ### Important: Before calling csv2rrd delete all files in ./rrd and ./rrd/graph
