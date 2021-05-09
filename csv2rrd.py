@@ -9,23 +9,47 @@ from rrdtool_wrapper import *
 from logger import Logger
 
 
-def read_args_of_commandline():
-    # if there are serveral filename found (by asterisk)
+def read_args_of_commandline(filetype):
+    # if there are several args
     filenames = sys.argv
-    if(len(filenames) == 2):
-        filenames.pop(0)
-        filename = filenames
-        return filename
-    elif(len(filenames) > 2):
-        filenames.pop(0)
-        return filenames
-    return None
+    # find suffix of csv-file, rrd-file or png-file
+    csv_suffix = ".csv"
+    rrd_suffix = ".rrd"
+    graph_keyword = "graph"
+    string_suffixes = [csv_suffix, rrd_suffix, graph_keyword]
+    # get list of all suffixes of arguments
+    files_in_filenames = [string for string in filenames if any(suffix in string for suffix in string_suffixes)]
+    csv_files = [s for s in files_in_filenames if csv_suffix in s]
+    rrd_file = [s for s in files_in_filenames if rrd_suffix in s]
+    graph_path = [s for s in files_in_filenames if graph_keyword in s]
 
-# check if there args on the commandline otherwise set filename to the given arg of function
+    # if there are rrd-suffixes
+    if(filetype is "rrd"):
+        if(len(rrd_file)):
+            return rrd_file
+    # if there are graph-suffixes
+    if(filetype is "graph"):
+        if(len(graph_path)):
+            return graph_path
+    if(filetype is "csv"):
+        # if there are csv-suffixes return csvs
+        if(len(csv_files)):
+            # if there are serveral filenames found (by asterisk), then return only the csv
+            if(len(filenames) == 2):
+                filenames.pop(0)
+                filename = filenames
+                return filename
+            # if there are more than one csv-files
+            elif(len(csv_files) > 2):
+                filenames = csv_files
+                return filenames
+            return None
+
+# check if there args for csv on the commandline otherwise set filename to the given arg of function
 def set_and_get_csv_filename(filename):
     csv_filename = filename
-    value_of_commandline = read_args_of_commandline()
-    # print("set_and_get_csv_filename: read_args_of_commandline:", value_of_commandline)
+    value_of_commandline = read_args_of_commandline("csv")
+    print(f"set_and_get_csv_filename:value_of_commandline={value_of_commandline}")
     if(value_of_commandline == None):
         print("There are no given args on the commandline")
         return csv_filename
@@ -34,6 +58,33 @@ def set_and_get_csv_filename(filename):
         print("set CSV by call")
         csv_filename = value_of_commandline
         return csv_filename
+# check if there args for rrd on the commandline otherwise set filename to the given arg of function
+def set_and_get_rrd_filename(filename):
+    rrd_filename = filename
+    value_of_commandline = read_args_of_commandline("rrd")
+    if(value_of_commandline == None):
+        print("There are no given args on the commandline")
+        return rrd_filename
+    else:
+        #it returns a list
+        print("set RRD by call")
+        rrd_filename = value_of_commandline
+        rrd_filename = ''.join(rrd_filename)
+        return rrd_filename
+# check if there args on the commandline otherwise set filename to the given arg of function
+def set_and_get_graph_path(filename):
+    graph_path = filename
+    value_of_commandline = read_args_of_commandline("graph")
+    print(f"set_and_get_graph_path:value_of_commandline={value_of_commandline}")
+    if(value_of_commandline == None):
+        print("There are no given args on the commandline")
+        return graph_path
+    else:
+        #it returns a list
+        print("set graph by call")
+        graph_path = value_of_commandline
+        graph_path = ''.join(graph_path)
+        return graph_path
 
 def file_exists(filename):
     if (path.exists(filename)):
@@ -59,7 +110,7 @@ def iterate_over_csvs_and_store_it_to_list(csv_filename):
 #cug: create, update, graph -> method to create rrd and update rrd and generate graph
 def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l):
     # in this section all variables for the csv-file are set
-    # differentiate if filename is one value or more then one
+    # differentiate if filename is one value or more than one
     #first_timestamp is a float and we need an integer so parse to an int and as an update arg we need a string
     #-1 because update should be one second after the rrd is created
     csv_devicename = csv_file_entity['devicename']
@@ -68,7 +119,9 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l)
     csv_last_date_time = csv_file_entity['last_date_time']
     csv_last_update_value = csv_file_entity['last_update_value']
     csv_data = csv_file_entity['data']
-    image_filename = f"./rrd/graph/{rrdtool_filename}_{csv_first_timestamp}.png"
+    graph_path = "./rrd/graph"
+    graph_path = set_and_get_graph_path(graph_path)
+    image_filename = f"{graph_path}/{rrdtool_filename}_{csv_first_timestamp}.png"
 
     if(file_exists(rrd_filename)):
         job_status = updater_rrd(rrd_filename, csv_data)
@@ -85,12 +138,12 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l)
             l.i(job_status)
             job_status = updater_rrd(rrd_filename, csv_data)
             l.i(job_status)
-            # job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
-            # l.i(job_status)
+            job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG", csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
+            l.i(job_status)
 
 def start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, l):
     csv_exists = True
-    csv_file = "./csv/sma1.csv"
+    csv_file = "./csv/sma.csv"
     csv_filename = set_and_get_csv_filename(csv_file)
     l.i(f"Read CSV: {csv_filename}")
     # if there are several csv-files found because there are several arguments by a wildcard (*) on the script-command by commandline
@@ -101,7 +154,7 @@ def start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, imag
         #iterate over all found csv files
         for csv_file_entity in csv_file_list:
             counter += 1
-            ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l)
+            # ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l)
     # if only one csv is found because there is only one argument on the script-command by commandline
     else:
         job_status = f"There are no given args on the commandline so use {csv_filename} (by default)"
@@ -156,9 +209,12 @@ def main_():
     rrdtool_filename = "sma_garage"
     # comented pathes are the default locations for pathes of cacti on ubuntu
     rrd_filename = f"./rrd/{rrdtool_filename}.rrd" #f"/opt/cacti/rra/{rrdtool_filename}.rrd"#
+    rrd_filename = set_and_get_rrd_filename(rrd_filename)
     rrd_heartbeat = "300"
     csv_devicename = "rrd"
-    image_filename = f"./rrd/graph/{rrdtool_filename}"#f"/opt/cacti/graphes/{rrdtool_filename}"#
+    graph_path = "./rrd/graph"
+    graph_path = set_and_get_graph_path(graph_path)
+    image_filename = f"{graph_path}/{rrdtool_filename}"#f"/opt/cacti/graphes/{rrdtool_filename}"#
 
     # if there no args existing the function will return false: otherwise it will return a list of filenames
     # set filename: differentiate between 0 args or 1 arg or 1 arg with regex
