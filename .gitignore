@@ -4,3 +4,6 @@ to_do.txt
 csv/*
 rrd/*
 csv2rrd.log
+csv2rrd.srctrlbm
+csv2rrd.srctrlprj
+csv2rrd.srctrldb

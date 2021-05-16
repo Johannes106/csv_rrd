@@ -47,8 +47,8 @@ def read_args_of_commandline(filetype):
             return None
 
 
-# check if there args for rrd on the commandline otherwise set filename to the given arg of function
-# rrd_filename is identified by '.rrd'
+# check if there args for csv on the commandline otherwise set filename to the given arg of function
+# csv_filename is identified by '.csv'
 def set_and_get_csv_filename(filename):
     csv_filename = filename
     value_of_commandline = read_args_of_commandline("csv")
@@ -74,8 +74,6 @@ def set_and_get_rrd_filename(filename):
         rrd_filename = value_of_commandline
         rrd_filename = ''.join(rrd_filename)
         return rrd_filename
-# check if there args on the commandline otherwise set filename to the given arg of function
-# graph path is identified by 'graph'
 
 
 def set_and_get_graph_path(filename):
