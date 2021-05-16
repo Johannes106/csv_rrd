@@ -1,16 +1,14 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
+  
+  "version": "0.3.0",
   "configurations": [
     {
-      "name": "Python: Aktuelle Datei",
+      "name": "Python: csv2rrd",
       "type": "python",
       "request": "launch",
-      "program": "${file}",
+      "program": "csv2rrd.py",
       "console": "integratedTerminal",
-      "args": ["./csv/sma.csv", "./r/test.rrd", "./rrd/png/test.png"],
+      "args": ["./csv/smaLauner1-Spot-20200519.csv", "./rrd/test.rrd", "./rdd/graph", "sma_home"],
     }
   ]
 }
