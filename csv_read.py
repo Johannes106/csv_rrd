@@ -54,6 +54,7 @@ def read_csv(csv_filename):
 
         return csv_data_array_list_values
 
+# deprecated feature
 # main(csvfile_name) is only executed if 'csv_read.py' is directly called
 def main(csvfile_name):
     print(read_csv(csvfile_name))

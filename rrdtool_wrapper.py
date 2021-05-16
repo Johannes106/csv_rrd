@@ -26,7 +26,6 @@ def look_for_real_values(fetch_data, start, fetch_data_heartbeat):
         if(fetch_data_content!='None'):
             string_real_values = f"[{fetch_data_timestamp}][{fetch_data_content}]"
             array_real_values.append(string_real_values)
-            # fetch_data_timestamp =+ int(fetch_data_heartbeat)
         fetch_data_timestamp = fetch_data_timestamp + int(fetch_data_heartbeat)
     return array_real_values
 
@@ -72,7 +71,6 @@ def updater_rrd(rrdfile_name, value):
                 counter = counter + 1
             except:
                 update_status_msg = f"error: rrd update error: {sys.exc_info()[1]}"
-                # raise
     else:
         try:
             rrdtool.update(rrdfile_name, value)
@@ -88,7 +86,6 @@ def info_rrd(rrdfile_name):
     try:
         db_info = rrdtool.info(rrdfile_name)
         info_content = db_info
-        #print(db_info)
         info_status_msg = f"success: {rrdfile_name}: was read successfully"
     except:
         info_status_msg = f"error: rrd update error: {sys.exc_info()[1]}"

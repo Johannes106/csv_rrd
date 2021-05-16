@@ -237,9 +237,8 @@ def main_():
     csv_exists = None
     # default path for csv is set
     rrdtool_filename = "sma_garage"
+    # if there no args existing the function will return false: otherwise it will return a list of filenames
     rrdtool_filename = set_and_get_sma_name(rrdtool_filename)
-    # comented pathes are the default locations for pathes of cacti on ubuntu
-    # f"/opt/cacti/rra/{rrdtool_filename}.rrd"#
     rrd_filename = f"./rrd/{rrdtool_filename}.rrd"
     rrd_filename = set_and_get_rrd_filename(rrd_filename)
     rrd_heartbeat = "300"
@@ -248,13 +247,7 @@ def main_():
     # f"/opt/cacti/graphes/{rrdtool_filename}"#
     image_filename = f"{graph_path}/{rrdtool_filename}"
 
-    # if there no args existing the function will return false: otherwise it will return a list of filenames
-    # set filename: differentiate between 0 args or 1 arg or 1 arg with regex
-    # if the path of csv_file exist set this path as default otherwise do not use read_csv
-    # if(file_exists(csv_file)!=None):
     start_cug_dependent_of_csv(
         rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, l)
-    #generate_graph_by_rrd(rrd_filename, csv_devicename, image_filename, l)
-
-
+    
 main_()
