@@ -52,11 +52,37 @@ python3 csv2rrd.py sma1-Spot-20200521.csv
 python3 csv2rrd.py ./csv/sma*
 ```
 
->Call it with args for rrd-location and graph-folder and csv-location
->*Important:* args for rrd has to be a whole location and end with: .rrd
+>Call it with args for rrd-location and/or graph-folder and/or csv-location and/or db_name
+
+>*Important:* args for rrd has to be a location (relative path) and end with: .rrd
+
+>*Important:* args for csv has to be a location (relative path) and end with: .csv
+
+>*Important:* args for graph has to be only the relativ path and it will indicated by the word 'graph'
+
+>*Important:* args for rrd-file to has be only a word with the prefix 'sma_' 
+
 >*Important:* args for graph has be only the relativ path and it will indicated by the word 'graph'
+
+| indicator for |  keyword |
+|---------------|----------|
+| csv_suffix    | .csv     |
+| rrd_suffix    | .rrd     |
+| graph_keyword | graph    |
+| sma_keyword   | sma_     |
+
+
 ```
 python3 csv2rrd.py ./csv/sma.csv ./rrd/test.rrd ./graph
 ```
 
-### Important: Before calling csv2rrd delete all files in ./rrd and ./rrd/graph
+```
+python3 csv2rrd.py ./csv/sma.csv ./rrd/test.rrd sma_home
+```
+```
+ python3 csv2rrd.py ./csv/sma.csv ./rrd/test.rrd ./rrd/graph sma_home
+```
+```
+ python3 csv2rrd.py ./csv/*.csv ./rrd/test.rrd ./rrd/graph sma_home
+```
+## Important: Before calling csv2rrd delete all files in ./rrd and ./rrd/graph 
