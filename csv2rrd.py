@@ -177,7 +177,8 @@ def start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, imag
         # iterate over all found csv files
         for csv_file_entity in csv_file_list:
             counter += 1
-            ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, l)
+            ug_or_cug(rrd_filename, rrd_heartbeat,
+                      csv_file_entity, rrdtool_filename, l)
     # if only one csv is found because there is only one argument on the script-command by commandline
     else:
         job_status = f"There are no given args on the commandline so use {csv_filename} (by default)"
@@ -249,5 +250,6 @@ def main_():
 
     start_cug_dependent_of_csv(
         rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, l)
-    
+
+
 main_()
