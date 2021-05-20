@@ -1,10 +1,14 @@
-# actions of rrdtool
-# wrapper for the actions of the rrdtool
-# - create a round-robin-database
-# - update the rrd:
-#   - with a single value
-#   - with a list of values (in form of -> time:value)
-# - create a graph of rrd
+"""
+rrdtool_wrapper.py:
+-> actions of rrdtool
+it is a wrapper for the actions of the rrdtool
+ - create a round-robin-database
+ - update the rrd:
+   - with a single value
+   - with a list of values (in form of -> time:value)
+ - create a graph of rrd
+"""
+# adapter pattern
 import sys
 import rrdtool
 import os.path
@@ -13,14 +17,35 @@ from datetime import datetime
 
 
 def convert_timestamp_to_date(timestamp):
+    """
+    convert_timestamp_to_date:
+    Takes a timestamp and convert it
+    in a human readable date
+
+    Args:
+        timestamp (number): it is timestamp of unix-time
+
+    Return:
+        date (date): the converted timestamp
+    """
     date_timestamp_obj = datetime.fromtimestamp(timestamp)
     return(date_timestamp_obj)
 
-# get the first timestamp which have a value of numbers
-# iterate over a already defined database and look for values which are not 'none'
-
 
 def look_for_real_values(fetch_data, start, fetch_data_heartbeat):
+    """
+    look_for_real_values:
+    search for real values in a rrd
+    iterate over an already defined database and look for values which are not 'none'
+
+    Args:
+        fetch_data (float): a value of rrd
+        start (float): value for first timestamp with a value
+        fetch_data_heartbeat (integer): heartbead of the rrd
+
+    Returns:
+        array (of timestampss): array with values
+    """
     array_real_values = []
     fetch_data_timestamp = int(start)
     # print(f"fetch_data_timestamp{type(fetch_data_timestamp)}{fetch_data_timestamp}")
@@ -34,6 +59,20 @@ def look_for_real_values(fetch_data, start, fetch_data_heartbeat):
 
 
 def creator_rrd(rrdfile_name, starttime, step):
+    """
+    creator_rrd:
+    creates a file of a rrd
+
+    Args:
+        rrdfile_name (string): name of the new file
+        starttime (float): first timestamp
+        step (int): step is the diffence between the expected timestamps
+
+    Returns:
+        creates a rrd
+        OR IF THE ACTION FAILS it will return
+        errormessage: description of failing creation
+    """
     create_status_msg = ""
     try:
         rrdtool.create(
@@ -64,7 +103,17 @@ def creator_rrd(rrdfile_name, starttime, step):
 
 
 def updater_rrd(rrdfile_name, value):
-    # is the given value a list
+    """
+    updater_rrd:
+    update your existing rrd with the given values
+
+    Args:
+        rrdfile_name (string): it is the name of your file/rrd
+        value (array as a list): the values for the rrd
+
+    Returns:
+        update_status_msg: string that says if the update was successful or failed
+    """
     if(isinstance(value, list)):
         # iterate over the list
         counter = 0
@@ -86,6 +135,17 @@ def updater_rrd(rrdfile_name, value):
 
 
 def info_rrd(rrdfile_name):
+    """
+    is not currenty in use
+    info_rrd:
+    get info about an existing rrd
+
+    Args:
+        rrdfile_name (string): it is the name of your file/rrd
+
+    Returns:
+        info_msg (dict): get info about the rrd
+    """
     info_content = []
     info_status_msg = ""
     # get the last value
@@ -102,6 +162,17 @@ def info_rrd(rrdfile_name):
 
 
 def get_first_timestamp_rrd(rrdfile_name):
+    """
+    get_first_timestamp_rrd:
+    get the first timestamp which have a value of numbers
+
+    Args:
+        rrdfile_name (string): it is the name of your file/rrd
+
+    Returns:
+        a dict with the value and a status_message
+        first_timestamp (dict): first real timestamp of rrd (is necessary for creating a png)
+    """
     first_timestamp = []
     get_first_status_msg = ""
     # is the given file a rrd
@@ -117,6 +188,17 @@ def get_first_timestamp_rrd(rrdfile_name):
 
 
 def get_last_timestamp_rrd(rrdfile_name):
+    """
+    get_last_timestamp_rrd:
+    grt the last timestamp of the rrd
+
+    Args:
+        rrdfile_name (string): it is the name of your file/rrd
+
+    Returns:
+        a dict with the value and a status_message
+        last_timestamp (dict): last timestamp of rrd (is necessary for creating a png)
+    """
     last_timestamp = []
     get_last_status_msg = ""
     try:
@@ -131,6 +213,18 @@ def get_last_timestamp_rrd(rrdfile_name):
 
 
 def get_last_update_rrd(rrdfile_name):
+    """
+    get_last_update_rrd:
+    get the last real value within the db (rrd)
+
+    Args:
+        rrdfile_name (string): it is the name of your file/rrd
+
+    Returns:
+        Returns:
+        a dict with the value and a status_message
+        last_value (dict): last updated value of rrd (is necessary for creating a png)
+    """
     last_value = []
     get_last_update_status_msg = ""
     try:
@@ -145,6 +239,20 @@ def get_last_update_rrd(rrdfile_name):
 
 
 def fetch_rrd(rrdfile_name, cf, start, end):
+    """
+    fetch_rrd:
+    get data of the given rrd from given start-time to end-time
+
+    Args:
+        rrdfile_name (string): it is the name of your file/rrd
+        cf (string): [description]
+        start (timestamp of a list): The first time (from)
+        end (timestamp of a list): The last time (to)
+
+    Returns:
+        a dict with the value and a status_message
+        data (dict)
+    """
     fetch_content = []
     fetch_status_msg = ""
     fetch_data = ""
@@ -174,6 +282,25 @@ def fetch_rrd(rrdfile_name, cf, start, end):
 
 
 def grapher_rrd(rrd_filename, devicename, image_name, image_typ, starttime, endtime, last_time, last_update):
+    """
+    grapher_rrd:
+    creates the png of the given rrd-file
+
+    Args:
+        Args:
+        rrdfile_name (string): it is the name of your file/rrd
+        devicename ([type]): [description]
+        image_name ([type]): [description]
+        image_typ ([type]): [description]
+        starttime ([type]): [description]
+        endtime ([type]): [description]
+        last_time ([type]): [description]
+        last_update ([type]): [description]
+
+    Returns:
+        creates and png 
+        graph_status_msg (string): string that informs about the result of the creation -> successful or fail
+    """
     last_time_date_format_de = (last_time.split(' ')[0]).replace('/', '.')
     last_time_time = last_time.split(' ')[1]
     last_time_time_point = last_time_time.replace(':', '.')
