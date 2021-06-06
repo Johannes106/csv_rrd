@@ -298,7 +298,7 @@ def grapher_rrd(rrd_filename, devicename, image_name, image_typ, starttime, endt
         last_update ([type]): [description]
 
     Returns:
-        creates and png 
+        creates a png 
         graph_status_msg (string): string that informs about the result of the creation -> successful or fail
     """
     last_time_date_format_de = (last_time.split(' ')[0]).replace('/', '.')
