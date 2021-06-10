@@ -69,7 +69,7 @@ def set_and_get_csv_filename(filename):
     """
     set_and_get_csv_filename:
     check if there are args for csv in the the call of the commandline otherwise set filename to the given arg of function
-    this functions usese read_args_of_commandline
+    this functions uses read_args_of_commandline
 
     Args:
         filename (string): the given name of the csv-file
@@ -83,10 +83,17 @@ def set_and_get_csv_filename(filename):
         print("CSV: There are no given args on the commandline")
         return csv_filename
     else:
-        # it returns a list
+        # regularly it returns a list
         print("set CSV by call")
-        csv_filename = value_of_commandline
-        return csv_filename
+        # check if the given csv-file(s) exist
+        for file in value_of_commandline:
+            if(bool(file_exists(file))):
+                csv_filename = value_of_commandline
+            else:
+                status_msg = f"{file} does not exist"
+                csv_filename = status_msg
+                print(status_msg)
+            return csv_filename
 
 
 def set_and_get_rrd_filename(filename):
