@@ -87,7 +87,7 @@ def set_and_get_csv_filename(filename):
         print("set CSV by call")
         # check if the given csv-file(s) exist
         for file in value_of_commandline:
-            if(bool(file_exists(file))):
+            if(bool(file_or_folder_exists(file))):
                 csv_filename = value_of_commandline
             else:
                 status_msg = f"{file} does not exist"
@@ -170,7 +170,7 @@ def set_and_get_sma_name(filename):
         return sma_name
 
 
-def file_exists(filename):
+def file_or_folder_exists(filename):
     if (path.exists(filename)):
         return True
 
@@ -189,7 +189,7 @@ def iterate_over_csvs_and_store_it_to_list(csv_filename):
     csv_files = []
     # read each csv-file
     for csv_name in csv_filename:
-        if(file_exists(csv_name)):
+        if(file_or_folder_exists(csv_name)):
             csv = read_csv(csv_name)
             csv_files.append(csv)
         else:
@@ -226,13 +226,14 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, lo
     csv_data = csv_file_entity['data']
     graph_path = "./rrd/graph"
     graph_path = set_and_get_graph_path(graph_path)
+    # check if the given graph-path exists otherwise exit with message
     image_filename = f"{graph_path}/{rrdtool_filename}_{csv_first_timestamp}.png"
 
-    if(file_exists(rrd_filename)):
+    if(file_or_folder_exists(rrd_filename)):
         job_status = updater_rrd(rrd_filename, csv_data)
         logger.i(job_status)
         # if there already exists a image with this name: do not overwrite the image
-        if(file_exists(image_filename)):
+        if(file_or_folder_exists(image_filename)):
             job_status = f"error: create graph: {image_filename} already exists so do not create it"
             logger.i(job_status)
         else:
