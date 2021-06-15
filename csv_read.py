@@ -18,17 +18,15 @@ def _convert_date_to_timestamp(date_human):
 def read_csv(csv_filename):
     csv_data_array_list_first = []
     with open(csv_filename) as csv_f:
-        # in the csv-file the delimiter can be a ; or , 
+        # in the csv-file the delimiter can be a ; or ,
         delimiter_chooser = ''
         delimiter_semicolon = ';'
         delimiter_comma = ','
         exist_in_file = csv_f.read().find(delimiter_semicolon)
         if(exist_in_file) > -1:
             delimiter_chooser = delimiter_semicolon
-            #print(f"Delimiter: {delimiter_chooser}")
         else:
             delimiter_chooser = delimiter_comma
-            #print(f"Delimiter: {delimiter_chooser}")
     with open(csv_filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=delimiter_chooser)
         line_count = 0
