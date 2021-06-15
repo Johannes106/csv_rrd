@@ -225,8 +225,14 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, lo
     csv_last_update_value = csv_file_entity['last_update_value']
     csv_data = csv_file_entity['data']
     graph_path = "./rrd/graph"
-    graph_path = set_and_get_graph_path(graph_path)
-    # check if the given graph-path exists otherwise exit with message
+    got_real_graph_path = set_and_get_graph_path(graph_path)
+    # check if the given graph_path exists other take the default (./rrd/graph) and write a error msg to the logfile
+    if(file_or_folder_exists(got_real_graph_path)):
+        graph_path = set_and_get_graph_path(graph_path)
+        graph_path = ''.join(graph_path)
+    else:
+        msg_graph_path = f"ERROR: The given path of graph {graph_path} does not exist"
+        logger.i(msg_graph_path)
     image_filename = f"{graph_path}/{rrdtool_filename}_{csv_first_timestamp}.png"
 
     if(file_or_folder_exists(rrd_filename)):
@@ -356,7 +362,15 @@ def main_():
     # if there no args existing the function will return false: otherwise it will return a list of filenames
     rrdtool_filename = set_and_get_sma_name(rrdtool_filename)
     rrd_filename = f"./rrd/{rrdtool_filename}.rrd"
-    rrd_filename = set_and_get_rrd_filename(rrd_filename)
+    # save gotten filename of function in a var
+    got_real_rrd_filename = set_and_get_rrd_filename(rrd_filename)
+    # check if path of got_real_rrdfilename exists
+    #seperate path and file
+    got_real_rrd_file = os.path.basename(rrd_filename)
+    got_real_rrd_path = got_real_rrd_filename.replace(got_real_rrd_file, "")
+    if(file_or_folder_exists(got_real_rrd_path)):
+        msg_rrd_filename = f"ERROR: The given path of rrd-file {got_real_rrd_path} does not exist"
+        logger.i(msg_rrd_filename)
     rrd_heartbeat = "300"
     csv_devicename = "rrd"
     graph_path = "./rrd/graph"
