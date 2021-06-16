@@ -262,7 +262,6 @@ def start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, imag
     csv_file = "./csv/sma.csv"
     csv_filename = set_and_get_csv_filename(csv_file)
     logger.i(f"Read CSV: {csv_filename}")
-
     if(type(csv_filename) == list):
         csv_file_list = iterate_over_csvs_and_store_it_to_list(csv_filename)
         logger.i(f"process {len(csv_file_list)} csvfiles")
@@ -293,7 +292,6 @@ def inspect_rrd(rrd_filename):
         [type]: [description]
     """
     # use functions of rrdtool_wrapper.py
-
     print("rrd_filename:", rrd_filename)
     fetched_data = fetch_rrd(rrd_filename, "AVERAGE",
                              '1589806500', '1589986215')
@@ -304,10 +302,7 @@ def generate_graph_by_rrd(rrd_filename, devicename, image_filename, logger):
     """
     generate_graph_by_rrd:
     generate a graph with the data of a given (external) rrd-file
-
     """
-    # job status = "Generate Graph with the input of a rrd ({rrd_filename})"
-    # first_timestamp = str(get_first_timestamp_rrd(rrd_filename)['first_timestamp'])
     first_timestamp = inspect_rrd(rrd_filename)['first_real_value']
     last_timestamp = str(get_last_timestamp_rrd(
         rrd_filename)['last_timestamp'])
@@ -315,7 +310,6 @@ def generate_graph_by_rrd(rrd_filename, devicename, image_filename, logger):
     last_value_date_human = str(last_value['last_value']['date'])
     last_value_valuepair = last_value['last_value']['ds']
     image_filename_rrd = f"{image_filename}_{last_timestamp}_by_rrd.png"
-    # key = last_value_rrd_valuepair.items()
     last_value_valuepair_ds = str(list(last_value_valuepair.keys())[0])
     last_value_valuepair_value = str(
         last_value_valuepair[last_value_valuepair_ds])

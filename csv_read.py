@@ -75,8 +75,6 @@ def read_csv(csv_filename):
 
 # deprecated feature
 # main(csvfile_name) is only executed if 'csv_read.py' is directly called
-
-
 def main(csvfile_name):
     print(read_csv(csvfile_name))
 
@@ -85,11 +83,7 @@ def main(csvfile_name):
 # first of all execution python looks for its own variables and if the var __name__ has the value of __main__ then it is a direct call
 if __name__ == '__main__':
     csvfile_name = "./csv/sma.csv"
-    # Look if there are two args (first arg is always the filename.py on an direct call) then set the filename to the second arg
-    # if(len(sys.argv) > 1):
-    #     csvfile_name = sys.argv[1]
-    #     print("set csvfile_name to: ", csvfile_name)
-
+    
     if(len(sys.argv) > 1):
         csvfile_name = str(sys.argv[1])
 
