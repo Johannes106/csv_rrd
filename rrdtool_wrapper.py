@@ -48,7 +48,7 @@ def look_for_real_values(fetch_data, start, fetch_data_heartbeat):
     """
     array_real_values = []
     fetch_data_timestamp = int(start)
-    # print(f"fetch_data_timestamp{type(fetch_data_timestamp)}{fetch_data_timestamp}")
+    
     for fetch_data_entry in fetch_data:
         fetch_data_content = str(fetch_data_entry[0])
         if(fetch_data_content != 'None'):
@@ -269,7 +269,6 @@ def fetch_rrd(rrdfile_name, cf, start, end):
         fetch_data = db_values[2]
         fetch_data_first_real_value = look_for_real_values(
             fetch_data, start, fetch_data_heartbeat)[0]
-        # print(f"fetch_data_first_real_value{type(fetch_data_first_real_value)}{fetch_data_first_real_value}")
         fetch_status_msg = f"success: {rrdfile_name}: was fetched successfully"
     except Exception as e:
         fetch_status_msg = f"error: rrd fetch error: {sys.exc_info()[1]} \n{e}"
@@ -306,7 +305,6 @@ def grapher_rrd(rrd_filename, devicename, image_name, image_typ, starttime, endt
     last_time_time_point = last_time_time.replace(':', '.')
     starttime_date_string = str(convert_timestamp_to_date(int(starttime)))
     starttime_date_point = starttime_date_string.replace(':', '.')
-    # print(f"grapher_rrd: starttime_date_point {type(starttime_date_point)}:{starttime_date_point}")
     string_from_to = f"From {starttime_date_point} To {last_time_date_format_de} {last_time_time_point}"
     graph_status_msg = ""
     rrd_def = f"DEF:kwh_etoday={rrd_filename}:etoday:AVERAGE"

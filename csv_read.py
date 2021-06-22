@@ -18,17 +18,15 @@ def _convert_date_to_timestamp(date_human):
 def read_csv(csv_filename):
     csv_data_array_list_first = []
     with open(csv_filename) as csv_f:
-        # in the csv-file the delimiter can be a ; or , 
+        # in the csv-file the delimiter can be a ; or ,
         delimiter_chooser = ''
         delimiter_semicolon = ';'
         delimiter_comma = ','
         exist_in_file = csv_f.read().find(delimiter_semicolon)
         if(exist_in_file) > -1:
             delimiter_chooser = delimiter_semicolon
-            print(f"Delimiter: {delimiter_chooser}")
         else:
             delimiter_chooser = delimiter_comma
-            print(f"Delimiter: {delimiter_chooser}")
     with open(csv_filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=delimiter_chooser)
         line_count = 0
@@ -75,8 +73,6 @@ def read_csv(csv_filename):
 
 # deprecated feature
 # main(csvfile_name) is only executed if 'csv_read.py' is directly called
-
-
 def main(csvfile_name):
     print(read_csv(csvfile_name))
 
@@ -85,11 +81,7 @@ def main(csvfile_name):
 # first of all execution python looks for its own variables and if the var __name__ has the value of __main__ then it is a direct call
 if __name__ == '__main__':
     csvfile_name = "./csv/sma.csv"
-    # Look if there are two args (first arg is always the filename.py on an direct call) then set the filename to the second arg
-    # if(len(sys.argv) > 1):
-    #     csvfile_name = sys.argv[1]
-    #     print("set csvfile_name to: ", csvfile_name)
-
+    
     if(len(sys.argv) > 1):
         csvfile_name = str(sys.argv[1])
 
