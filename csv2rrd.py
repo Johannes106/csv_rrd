@@ -372,7 +372,7 @@ def main_():
     image_filename = f"{graph_path}/{rrdtool_filename}"
 
     start_cug_dependent_of_csv(
-        rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, logger)
+        got_real_rrd_path, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, logger)
 
 
 main_()
