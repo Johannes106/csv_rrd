@@ -18,17 +18,20 @@ def _convert_date_to_timestamp(date_human):
 def read_csv(csv_filename):
     csv_data_array_list_first = []
     with open(csv_filename) as csv_f:
-        # in the csv-file the delimiter can be a ; or ,
-        delimiter_chooser = ''
-        delimiter_semicolon = ';'
-        delimiter_comma = ','
-        exist_in_file = csv_f.read().find(delimiter_semicolon)
+        # in the csv-file the seperator can be a ; or ,
+        seperator_chooser = ''
+        seperator_semicolon = ';'
+        seperator_comma = ',' 
+        seperator_set_in_first_line = csv_f.readline()
+        print("seperator_set:", seperator_set_in_first_line)
+        exist_in_file = seperator_set_in_first_line.find(seperator_semicolon)
         if(exist_in_file) > -1:
-            delimiter_chooser = delimiter_semicolon
+            seperator_chooser = seperator_semicolon
         else:
-            delimiter_chooser = delimiter_comma
+            seperator_chooser = seperator_comma
     with open(csv_filename) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=delimiter_chooser)
+        print("seperator_chooser:", seperator_chooser)
+        csv_reader = csv.reader(csv_file, delimiter=seperator_chooser)
         line_count = 0
         headline_line = 4
         content_line = 0
@@ -38,11 +41,20 @@ def read_csv(csv_filename):
         csv_data_array_list_filtered = []
 
         for row in csv_reader:
+            # print("ROW: ", row)
             if line_count == headline_line:
                 attribut_key = row
                 attribut_amount = len(attribut_key)
             elif line_count > headline_line:
                 attribut_value = row
+                # print("attribut_value: ", attribut_value)
+                delimiter_comma_regex_value = '[0-9]*,[0-9]*'
+                #if any element of attribut_value contains the regex(..\,[0-9]*) then replace , with .
+                for element_value in attribut_value:
+                    if(re.search(delimiter_comma_regex_value, element_value)):
+                        print("Comma is used as limiter!")
+                        element_value = element_value.replace(',', '.')
+                        print("element:", element_value)
                 csv_data_list_line = dict(zip(attribut_key, attribut_value))
                 csv_data_list_line_filtered = (
                     f"{_convert_date_to_timestamp(csv_data_list_line['dd/MM/yyyy HH:mm:ss'])}:{csv_data_list_line['EToday']}")
