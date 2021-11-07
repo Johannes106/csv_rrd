@@ -349,11 +349,6 @@ def main_():
     logger = Logger("csv2rrd.log")
     job_status = "---------CSV2RRD---------"
     logger.i(job_status)
-    # for better debugging
-    print("Executed by ")
-    env_var_user = os.system("whoami")
-    print("belongs to groups ")
-    env_var_group = os.system("id -Gn")
     # check if there is an existing csv-file
     csv_exists = None
     # default path for csv is set
