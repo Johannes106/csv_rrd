@@ -18,17 +18,18 @@ def _convert_date_to_timestamp(date_human):
 def read_csv(csv_filename):
     csv_data_array_list_first = []
     with open(csv_filename) as csv_f:
-        # in the csv-file the delimiter can be a ; or ,
-        delimiter_chooser = ''
-        delimiter_semicolon = ';'
-        delimiter_comma = ','
-        exist_in_file = csv_f.read().find(delimiter_semicolon)
+        # in the csv-file the seperator can be a ; or ,
+        seperator_chooser = ''
+        seperator_semicolon = ';'
+        seperator_comma = ',' 
+        seperator_set_in_first_line = csv_f.readline()
+        exist_in_file = seperator_set_in_first_line.find(seperator_semicolon)
         if(exist_in_file) > -1:
-            delimiter_chooser = delimiter_semicolon
+            seperator_chooser = seperator_semicolon
         else:
-            delimiter_chooser = delimiter_comma
+            seperator_chooser = seperator_comma
     with open(csv_filename) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=delimiter_chooser)
+        csv_reader = csv.reader(csv_file, delimiter=seperator_chooser)
         line_count = 0
         headline_line = 4
         content_line = 0
@@ -42,6 +43,16 @@ def read_csv(csv_filename):
                 attribut_key = row
                 attribut_amount = len(attribut_key)
             elif line_count > headline_line:
+                attribut_value = ""
+                # print("attribut_value: ", attribut_value)
+                delimiter_comma_regex_value = '[0-9]*,[0-9]*'
+                # if any element of attribut_value contains the regex(..\,[0-9]*) then replace , with .
+                for element_value in row:
+                    # print("element_value", element_value)
+                    row_index_of_element_value = row.index(element_value)
+                    if(re.search(delimiter_comma_regex_value, element_value)):
+                        element_value = element_value.replace(',', '.')
+                        row[row_index_of_element_value] = element_value
                 attribut_value = row
                 csv_data_list_line = dict(zip(attribut_key, attribut_value))
                 csv_data_list_line_filtered = (
