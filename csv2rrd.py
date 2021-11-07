@@ -69,7 +69,7 @@ def set_and_get_csv_filename(filename):
     """
     set_and_get_csv_filename:
     check if there are args for csv in the the call of the commandline otherwise set filename to the given arg of function
-    this functions usese read_args_of_commandline
+    this functions uses read_args_of_commandline
 
     Args:
         filename (string): the given name of the csv-file
@@ -83,10 +83,17 @@ def set_and_get_csv_filename(filename):
         print("CSV: There are no given args on the commandline")
         return csv_filename
     else:
-        # it returns a list
+        # regularly it returns a list
         print("set CSV by call")
-        csv_filename = value_of_commandline
-        return csv_filename
+        # check if the given csv-file(s) exist
+        for file in value_of_commandline:
+            if(bool(file_or_folder_exists(file))):
+                csv_filename = value_of_commandline
+            else:
+                status_msg = f"{file} does not exist"
+                csv_filename = status_msg
+                print(status_msg)
+            return csv_filename
 
 
 def set_and_get_rrd_filename(filename):
@@ -163,7 +170,7 @@ def set_and_get_sma_name(filename):
         return sma_name
 
 
-def file_exists(filename):
+def file_or_folder_exists(filename):
     if (path.exists(filename)):
         return True
 
@@ -182,7 +189,7 @@ def iterate_over_csvs_and_store_it_to_list(csv_filename):
     csv_files = []
     # read each csv-file
     for csv_name in csv_filename:
-        if(file_exists(csv_name)):
+        if(file_or_folder_exists(csv_name)):
             csv = read_csv(csv_name)
             csv_files.append(csv)
         else:
@@ -218,14 +225,21 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, lo
     csv_last_update_value = csv_file_entity['last_update_value']
     csv_data = csv_file_entity['data']
     graph_path = "./rrd/graph"
-    graph_path = set_and_get_graph_path(graph_path)
+    got_real_graph_path = set_and_get_graph_path(graph_path)
+    # check if the given graph_path exists other take the default (./rrd/graph) and write a error msg to the logfile
+    if(file_or_folder_exists(got_real_graph_path)):
+        graph_path = set_and_get_graph_path(graph_path)
+        graph_path = ''.join(graph_path)
+    else:
+        msg_graph_path = f"ERROR: The given path of graph {graph_path} does not exist"
+        logger.i(msg_graph_path)
     image_filename = f"{graph_path}/{rrdtool_filename}_{csv_first_timestamp}.png"
 
-    if(file_exists(rrd_filename)):
+    if(file_or_folder_exists(rrd_filename)):
         job_status = updater_rrd(rrd_filename, csv_data)
         logger.i(job_status)
         # if there already exists a image with this name: do not overwrite the image
-        if(file_exists(image_filename)):
+        if(file_or_folder_exists(image_filename)):
             job_status = f"error: create graph: {image_filename} already exists so do not create it"
             logger.i(job_status)
         else:
@@ -262,7 +276,6 @@ def start_cug_dependent_of_csv(rrd_filename, rrd_heartbeat, csv_devicename, imag
     csv_file = "./csv/sma.csv"
     csv_filename = set_and_get_csv_filename(csv_file)
     logger.i(f"Read CSV: {csv_filename}")
-
     if(type(csv_filename) == list):
         csv_file_list = iterate_over_csvs_and_store_it_to_list(csv_filename)
         logger.i(f"process {len(csv_file_list)} csvfiles")
@@ -293,7 +306,6 @@ def inspect_rrd(rrd_filename):
         [type]: [description]
     """
     # use functions of rrdtool_wrapper.py
-
     print("rrd_filename:", rrd_filename)
     fetched_data = fetch_rrd(rrd_filename, "AVERAGE",
                              '1589806500', '1589986215')
@@ -304,10 +316,7 @@ def generate_graph_by_rrd(rrd_filename, devicename, image_filename, logger):
     """
     generate_graph_by_rrd:
     generate a graph with the data of a given (external) rrd-file
-
     """
-    # job status = "Generate Graph with the input of a rrd ({rrd_filename})"
-    # first_timestamp = str(get_first_timestamp_rrd(rrd_filename)['first_timestamp'])
     first_timestamp = inspect_rrd(rrd_filename)['first_real_value']
     last_timestamp = str(get_last_timestamp_rrd(
         rrd_filename)['last_timestamp'])
@@ -315,7 +324,6 @@ def generate_graph_by_rrd(rrd_filename, devicename, image_filename, logger):
     last_value_date_human = str(last_value['last_value']['date'])
     last_value_valuepair = last_value['last_value']['ds']
     image_filename_rrd = f"{image_filename}_{last_timestamp}_by_rrd.png"
-    # key = last_value_rrd_valuepair.items()
     last_value_valuepair_ds = str(list(last_value_valuepair.keys())[0])
     last_value_valuepair_value = str(
         last_value_valuepair[last_value_valuepair_ds])
@@ -341,6 +349,11 @@ def main_():
     logger = Logger("csv2rrd.log")
     job_status = "---------CSV2RRD---------"
     logger.i(job_status)
+    # for better debugging
+    print("Executed by ")
+    env_var_user = os.system("whoami")
+    print("belongs to groups ")
+    env_var_group = os.system("id -Gn")
     # check if there is an existing csv-file
     csv_exists = None
     # default path for csv is set
@@ -348,7 +361,15 @@ def main_():
     # if there no args existing the function will return false: otherwise it will return a list of filenames
     rrdtool_filename = set_and_get_sma_name(rrdtool_filename)
     rrd_filename = f"./rrd/{rrdtool_filename}.rrd"
-    rrd_filename = set_and_get_rrd_filename(rrd_filename)
+    # save gotten filename of function in a var
+    got_real_rrd_filename = set_and_get_rrd_filename(rrd_filename)
+    # check if path of got_real_rrdfilename exists
+    #seperate path and file
+    got_real_rrd_file = os.path.basename(rrd_filename)
+    got_real_rrd_path = got_real_rrd_filename.replace(got_real_rrd_file, "")
+    if(file_or_folder_exists(got_real_rrd_path)):
+        msg_rrd_filename = f"ERROR: The given path of rrd-file {got_real_rrd_path} does not exist"
+        logger.i(msg_rrd_filename)
     rrd_heartbeat = "300"
     csv_devicename = "rrd"
     graph_path = "./rrd/graph"
@@ -356,7 +377,7 @@ def main_():
     image_filename = f"{graph_path}/{rrdtool_filename}"
 
     start_cug_dependent_of_csv(
-        rrd_filename, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, logger)
+        got_real_rrd_path, rrd_heartbeat, csv_devicename, image_filename, rrdtool_filename, logger)
 
 
 main_()
