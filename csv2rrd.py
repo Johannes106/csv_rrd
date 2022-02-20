@@ -239,14 +239,9 @@ def ug_or_cug(rrd_filename, rrd_heartbeat, csv_file_entity, rrdtool_filename, lo
         job_status = updater_rrd(rrd_filename, csv_data)
         logger.i(job_status)
         # if there already exists a image with this name: do not overwrite the image
-        if(file_or_folder_exists(image_filename)):
-            job_status = f"error: create graph: {image_filename} already exists so do not create it"
-            logger.i(job_status)
-        else:
-            print(f"Create image: {image_filename}")
-            job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG",
-                                     csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
-            logger.i(job_status)
+        job_status = grapher_rrd(rrd_filename, csv_devicename, image_filename, "PNG",
+                                csv_first_timestamp, csv_last_timestamp, csv_last_date_time, csv_last_update_value)
+        logger.i(job_status)
     else:
         job_status = creator_rrd(
             rrd_filename, csv_first_timestamp, rrd_heartbeat)

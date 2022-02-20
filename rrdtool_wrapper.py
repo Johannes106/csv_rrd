@@ -66,7 +66,7 @@ def creator_rrd(rrdfile_name, starttime, step):
     Args:
         rrdfile_name (string): name of the new file
         starttime (float): first timestamp
-        step (int): step is the diffence between the expected timestamps
+        step (int): step is the difference between the expected timestamps
 
     Returns:
         creates a rrd
@@ -79,7 +79,7 @@ def creator_rrd(rrdfile_name, starttime, step):
             rrdfile_name,
             "--start", starttime,
             "--step", step,
-            "DS:etoday:GAUGE:600:0:50000",
+            "DS:etoday:GAUGE:600:0:U",
             "RRA:AVERAGE:0.5:1:600",  # 5  min
             "RRA:AVERAGE:0.5:6:700",  # 30 min
             "RRA:AVERAGE:0.5:24:775",  # 2  std
@@ -286,7 +286,6 @@ def grapher_rrd(rrd_filename, devicename, image_name, image_typ, starttime, endt
     creates the png of the given rrd-file
 
     Args:
-        Args:
         rrdfile_name (string): it is the name of your file/rrd
         devicename ([type]): [description]
         image_name ([type]): [description]
