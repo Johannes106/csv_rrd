@@ -107,6 +107,7 @@ python3 csv2rrd.py ./csv/sma.csv ./rrd/test.rrd sma_home
 
 ```bash
  python3 /opt/cacti/scripts/csv2rrd/csv_rrd/csv2rrd.py /home/pi/smadata/2021/garage-Spot-20210416.csv /opt/cacti/rra/smagarage.rrd var/www/pv/graph sma_home
+ python3 /home/pi/python/csv_rrd/csv2rrd.py /home/pi/smadata/202*/*.csv /opt/cacti/rra/smahome.rrd /var/www/html/pv/graph sma_home
 ```
 
 ## Important: Before calling csv2rrd delete all files in ./rrd and ./rrd/graph
